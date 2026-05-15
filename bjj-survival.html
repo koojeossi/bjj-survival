@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>화이트벨트 생존법</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f8f7f4;
+  --white:#ffffff;
+  --black:#0f0f0e;
+  --red:#c5392a;
+  --red-dim:#fdf0ee;
+  --amber:#d97706;
+  --green:#15803d;
+  --gray:#78766f;
+  --gray-lt:#e9e7e2;
+  --radius:14px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--black);min-height:100vh;}
+
+/* HEADER */
+header{
+  background:var(--black);padding:1rem 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.logo{font-family:'Black Han Sans',sans-serif;font-size:18px;color:#fff;letter-spacing:1px;display:flex;align-items:center;gap:10px;}
+.belt-strip{display:flex;gap:3px;}
+.bs{width:14px;height:6px;border-radius:1px;}
+.bs1{background:#e0e0e0;}.bs2{background:#3b6fd4;}.bs3{background:#7c3bd4;}.bs4{background:#8b4513;}.bs5{background:#fff;}
+.back-btn{display:none;font-size:13px;font-weight:500;color:rgba(255,255,255,.7);background:none;border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:5px 14px;cursor:pointer;transition:all .2s;}
+.back-btn:hover{color:#fff;border-color:rgba(255,255,255,.5);}
+.back-btn.visible{display:block;}
+
+/* SCREENS */
+.screen{display:none;animation:fadeUp .3s ease both;}
+.screen.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SCREEN 1 ── */
+#screen1{padding:2rem 1.5rem 4rem;}
+.intro-tag{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--red);margin-bottom:.75rem;}
+.intro-title{font-family:'Black Han Sans',sans-serif;font-size:42px;line-height:1;color:var(--black);margin-bottom:.5rem;}
+.intro-sub{font-size:14px;color:var(--gray);font-weight:300;margin-bottom:2.5rem;line-height:1.7;}
+.section-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-bottom:1rem;display:flex;align-items:center;gap:.75rem;}
+.section-label::after{content:'';flex:1;height:1px;background:var(--gray-lt);}
+
+.pos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.75rem;margin-bottom:2.5rem;}
+.pos-card{background:var(--white);border:1.5px solid var(--gray-lt);border-radius:var(--radius);padding:1.1rem .9rem;cursor:pointer;transition:all .18s;text-align:center;}
+.pos-card:hover{border-color:var(--black);transform:translateY(-2px);}
+.pos-card.selected{border-color:var(--red);background:var(--red-dim);}
+.pos-emoji{font-size:28px;margin-bottom:.5rem;}
+.pos-name{font-size:13px;font-weight:700;color:var(--black);margin-bottom:3px;}
+.pos-desc{font-size:11px;color:var(--gray);font-weight:300;line-height:1.4;}
+
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:2rem;}
+.mode-card{background:var(--white);border:1.5px solid var(--gray-lt);border-radius:var(--radius);padding:1.1rem 1rem;cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:.75rem;}
+.mode-card:hover{border-color:var(--black);}
+.mode-card.attack{border-left:3px solid #2a7ed4;}
+.mode-card.defend{border-left:3px solid var(--red);}
+.mode-card.selected.attack{border-color:#1d4ed8;background:#eff6ff;}
+.mode-card.selected.defend{border-color:var(--red);background:var(--red-dim);}
+.mode-icon{font-size:24px;flex-shrink:0;}
+.mode-name{font-size:14px;font-weight:700;color:var(--black);margin-bottom:2px;}
+.mode-desc{font-size:11.5px;color:var(--gray);font-weight:300;}
+
+.go-btn{display:flex;align-items:center;justify-content:center;width:100%;font-size:15px;font-weight:700;background:var(--black);color:#fff;border:none;border-radius:var(--radius);padding:1rem;cursor:pointer;opacity:.3;pointer-events:none;transition:all .2s;}
+.go-btn.ready{opacity:1;pointer-events:all;}
+.go-btn.ready:hover{background:#333;}
+
+/* ── SCREEN 2 ── */
+#screen2{padding:1.5rem 1.5rem 4rem;}
+
+.sol-context{display:flex;align-items:center;gap:.5rem;margin-bottom:1.25rem;flex-wrap:wrap;}
+.ctx-badge{font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;}
+.ctx-badge.pos{background:var(--black);color:#fff;}
+.ctx-badge.mode-a{background:#ddeeff;color:#1a5fa8;}
+.ctx-badge.mode-d{background:var(--red-dim);color:var(--red);}
+.ctx-arrow{color:var(--gray-lt);font-size:14px;}
+
+.sol-title{font-family:'Black Han Sans',sans-serif;font-size:38px;line-height:1;color:var(--black);margin-bottom:4px;}
+.sol-title-en{font-size:13px;font-weight:300;color:var(--gray);font-style:italic;margin-bottom:1.5rem;}
+
+/* 핵심 요약 카드 */
+.summary-card{
+  background:var(--black);color:#fff;
+  border-radius:var(--radius);padding:1.25rem 1.25rem 1.1rem;
+  margin-bottom:1.25rem;
+}
+.summary-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.6rem;}
+.summary-text{font-size:16px;font-weight:500;line-height:1.7;color:#fff;}
+.summary-text strong{color:#fbbf24;}
+
+/* 3단계 스텝 */
+.steps-wrap{margin-bottom:1.25rem;}
+.steps-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-bottom:.85rem;display:flex;align-items:center;gap:.75rem;}
+.steps-label::after{content:'';flex:1;height:1px;background:var(--gray-lt);}
+.step-list{display:flex;flex-direction:column;gap:.5rem;}
+.step-item{
+  display:flex;align-items:flex-start;gap:.85rem;
+  background:var(--white);border:1px solid var(--gray-lt);
+  border-radius:10px;padding:.9rem 1rem;
+}
+.step-num{
+  width:26px;height:26px;border-radius:50%;
+  background:var(--black);color:#fff;
+  font-size:12px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;margin-top:1px;
+}
+.step-content{}
+.step-title{font-size:13px;font-weight:700;color:var(--black);margin-bottom:3px;}
+.step-desc{font-size:12px;color:var(--gray);font-weight:300;line-height:1.6;}
+
+/* 경고 박스 */
+.warn-box{
+  display:flex;align-items:flex-start;gap:.65rem;
+  background:#fffbeb;border:1px solid #fde68a;
+  border-radius:10px;padding:.85rem 1rem;
+  margin-bottom:1.25rem;font-size:12.5px;line-height:1.6;color:#92400e;
+}
+.warn-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+
+.retry-btn{display:flex;align-items:center;justify-content:center;width:100%;font-size:14px;font-weight:700;background:none;color:var(--black);border:1.5px solid var(--black);border-radius:var(--radius);padding:.9rem;cursor:pointer;transition:all .15s;}
+.retry-btn:hover{background:var(--black);color:#fff;}
+
+@media(max-width:480px){
+  .intro-title{font-size:32px;}
+  .sol-title{font-size:30px;}
+  .pos-grid{grid-template-columns:repeat(2,1fr);}
+  .mode-grid{grid-template-columns:1fr;}
+}
+@media(min-width:700px){
+  #screen1,#screen2{max-width:620px;margin:0 auto;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="belt-strip">
+      <div class="bs bs1"></div><div class="bs bs2"></div>
+      <div class="bs bs3"></div><div class="bs bs4"></div><div class="bs bs5"></div>
+    </div>
+    화이트벨트 생존법
+  </div>
+  <button class="back-btn" id="backBtn" onclick="goBack()">← 다시 선택</button>
+</header>
+
+<!-- SCREEN 1 -->
+<div class="screen active" id="screen1">
+  <div class="intro-tag">BJJ WHITE BELT GUIDE</div>
+  <h1 class="intro-title">지금 어떤<br>상황이야?</h1>
+  <p class="intro-sub">포지션과 상황을 선택하면<br>바로 해결법을 보여줄게.</p>
+
+  <div class="section-label">포지션 선택</div>
+  <div class="pos-grid">
+    <div class="pos-card" data-pos="closedguard" onclick="selectPos(this)">
+      <div class="pos-emoji">🔒</div>
+      <div class="pos-name">클로즈드 가드</div>
+      <div class="pos-desc">다리로 잠긴 상태</div>
+    </div>
+    <div class="pos-card" data-pos="halfguard" onclick="selectPos(this)">
+      <div class="pos-emoji">🦵</div>
+      <div class="pos-name">하프 가드</div>
+      <div class="pos-desc">다리 하나만 잠긴</div>
+    </div>
+    <div class="pos-card" data-pos="mount" onclick="selectPos(this)">
+      <div class="pos-emoji">⬆️</div>
+      <div class="pos-name">마운트</div>
+      <div class="pos-desc">배 위에 올라탄</div>
+    </div>
+    <div class="pos-card" data-pos="sidecontrol" onclick="selectPos(this)">
+      <div class="pos-emoji">↔️</div>
+      <div class="pos-name">사이드 컨트롤</div>
+      <div class="pos-desc">옆에서 눌리는</div>
+    </div>
+    <div class="pos-card" data-pos="back" onclick="selectPos(this)">
+      <div class="pos-emoji">🎯</div>
+      <div class="pos-name">백</div>
+      <div class="pos-desc">등을 내준 상태</div>
+    </div>
+  </div>
+
+  <div class="section-label">내 역할 선택</div>
+  <div class="mode-grid">
+    <div class="mode-card attack" data-mode="attack" onclick="selectMode(this)">
+      <div class="mode-icon">⚔️</div>
+      <div>
+        <div class="mode-name">내가 잡은 포지션</div>
+        <div class="mode-desc">내가 그 포지션을 걸고 있음</div>
+      </div>
+    </div>
+    <div class="mode-card defend" data-mode="defend" onclick="selectMode(this)">
+      <div class="mode-icon">🛡️</div>
+      <div>
+        <div class="mode-name">상대가 잡은 포지션</div>
+        <div class="mode-desc">상대가 그 포지션을 걸고 있음</div>
+      </div>
+    </div>
+  </div>
+
+  <button class="go-btn" id="goBtn" onclick="showSolution()">해결법 보기 →</button>
+</div>
+
+<!-- SCREEN 2 -->
+<div class="screen" id="screen2">
+  <div class="sol-context" id="solContext"></div>
+  <div class="sol-title" id="solTitle"></div>
+  <div class="sol-title-en" id="solTitleEn"></div>
+
+  <div class="summary-card">
+    <div class="summary-label">한 줄 요약</div>
+    <div class="summary-text" id="solSummary"></div>
+  </div>
+
+  <div class="steps-wrap">
+    <div class="steps-label">단계별 방법</div>
+    <div class="step-list" id="solSteps"></div>
+  </div>
+
+  <div class="warn-box" id="solWarn" style="display:none">
+    <div class="warn-icon">⚠️</div>
+    <div id="solWarnText"></div>
+  </div>
+
+  <button class="retry-btn" onclick="goBack()">↺ 다른 상황 보기</button>
+</div>
+
+<script>
+// ─── DEBUG ───────────────────────────────────
+const DEBUG = true;
+const log = (...a) => DEBUG && console.log('%c[생존법]', 'color:#c5392a;font-weight:bold', ...a);
+const err = (...a) => console.error('%c[생존법 ERR]', 'color:red;font-weight:bold', ...a);
+
+let selPos = null, selMode = null;
+
+// ─── SOLUTION DATABASE ────────────────────────
+const SOLUTIONS = {
+  mount_defend: {
+    name: '브릿지 & 롤',
+    nameEn: 'Upa Escape / Bridge and Roll',
+    summary: '상대 <strong>팔 하나를 잡아 고정</strong>하고, 발을 세워 엉덩이를 폭발적으로 들어 옆으로 굴러.',
+    steps: [
+      { title: '팔 잡기', desc: '초크를 시도하는 팔 하나를 양손으로 꽉 잡아 내 가슴에 밀착. 이게 빠지면 아무것도 안 돼.' },
+      { title: '발 세우기', desc: '잡은 팔과 같은 쪽 발을 세워 발꿈치를 엉덩이 가까이 당겨. 반대 발은 훅처럼 걸어도 돼.' },
+      { title: '브릿지 & 롤', desc: '숨 참고 한 번에 폭발적으로 엉덩이를 들어올리며 옆으로 굴러. 조금씩 하면 안 됨 — 한 방에 해야 해.' },
+    ],
+    warn: '팔을 잡지 않고 브릿지만 하면 상대가 균형 잡고 그대로 있어. 반드시 팔 먼저.',
+  },
+  mount_attack: {
+    name: '하이 마운트',
+    nameEn: 'High Mount Control',
+    summary: '<strong>무릎을 겨드랑이까지</strong> 천천히 올려 하이 마운트를 만들어. 거기서 암바나 초크가 열려.',
+    steps: [
+      { title: '균형 먼저', desc: '양팔을 앞으로 짚거나 상대 몸에 올려 무게를 싣고, 무릎이 땅에서 떨어지지 않게 꼭 붙여.' },
+      { title: '무릎 올리기', desc: '한 무릎씩 조금씩 겨드랑이 방향으로 밀어 올려. 급하게 하면 상대가 브릿지하기 좋아지니 천천히.' },
+      { title: '공격 선택', desc: '하이 마운트가 되면 암바 또는 크로스 초크. 상대 팔이 올라오는 타이밍에 바로 반응해.' },
+    ],
+    warn: null,
+  },
+  sidecontrol_defend: {
+    name: '힙 이스케이프 (새우)',
+    nameEn: 'Hip Escape / Shrimping',
+    summary: '<strong>프레임으로 공간 만들고</strong> 엉덩이를 새우처럼 뒤로 빼서 무릎을 집어넣어 가드 회복.',
+    steps: [
+      { title: '프레임 만들기', desc: '한 팔 팔꿈치를 상대 목·턱 쪽에, 다른 팔 팔꿈치를 상대 엉덩이 쪽에 대고 공간을 만들어. 팔을 뻗으면 꺾이니 팔꿈치로 버텨.' },
+      { title: '새우 동작', desc: '프레임으로 버티면서 엉덩이를 뒤쪽으로 쭉 빼. 새우처럼 몸을 옆으로 구부려 공간을 확보해.' },
+      { title: '무릎 집어넣기', desc: '생긴 공간에 무릎을 밀어 넣어 하프 가드 또는 풀 가드로 회복. 여기서 상대가 다시 눌러오면 반복.' },
+    ],
+    warn: '납작하게 누워 있으면 아무것도 안 돼. 무조건 옆으로 돌아서 프레임부터.',
+  },
+  sidecontrol_attack: {
+    name: '사이드 → 마운트 전환',
+    nameEn: 'Side Control to Mount Transition',
+    summary: '<strong>가슴을 낮게 붙이고 압박</strong>하다가 상대가 브릿지하는 타이밍에 마운트로 올라타.',
+    steps: [
+      { title: '압박 유지', desc: '가슴을 상대 가슴에 최대한 밀착하고 무게를 실어. 팔꿈치를 무릎에 가깝게 당겨 기반을 단단히.' },
+      { title: '타이밍 잡기', desc: '상대가 브릿지(엉덩이 들기)를 시도하는 순간이 기회. 그 방향으로 무게를 이동시켜.' },
+      { title: '마운트 올라타기', desc: '상대 배 위로 무릎을 올려 마운트로 전환. 착지 즉시 양 무릎을 옆구리에 붙여 균형 잡아.' },
+    ],
+    warn: null,
+  },
+  closedguard_attack: {
+    name: '힙 범프 스윕',
+    nameEn: 'Hip Bump Sweep',
+    summary: '내가 상대를 가두고 있는 상황. 상대 포스처가 무너지는 순간 <strong>엉덩이를 폭발적으로 들어</strong> 스윕해서 탑으로 올라가.',
+    steps: [
+      { title: '상대 당기기', desc: '발목 잠금 유지한 채로 양손으로 상대 몸을 앞으로 당겨 포스처를 무너뜨려.' },
+      { title: '힙 범프', desc: '상대가 앞으로 쏠리는 순간 한쪽으로 엉덩이를 폭발적으로 들어올려. 타이밍이 전부야.' },
+      { title: '탑 착지', desc: '상대가 옆으로 넘어가면 따라가서 탑에 착지. 가드를 놓지 말고 마운트까지 노려.' },
+    ],
+    warn: null,
+  },
+  closedguard_defend: {
+    name: '클로즈드 가드 패스',
+    nameEn: 'Closed Guard Pass',
+    summary: '내가 상대 가드 안에 갇힌 상황. <strong>포스처(허리)를 세우는 게 먼저</strong>야. 숙이는 순간 기요틴이나 암바 당해.',
+    steps: [
+      { title: '포스처 세우기', desc: '허리를 곧게 펴고 무릎을 세워. 상대가 잡아당겨도 버텨 — 몸을 앞으로 숙이면 바로 기요틴이야.' },
+      { title: '가드 열기', desc: '한 손을 상대 배꼽 위에, 다른 손을 무릎 위에 올려 압박. 그 상태에서 옆으로 팔꿈치를 밀어 다리 잠금을 깨.' },
+      { title: '패스', desc: '다리가 열리면 토레안도 패스로 양 발목을 잡고 옆으로 빠져나가 사이드 컨트롤 착지.' },
+    ],
+    warn: '상대 가드 안에서 절대 숙이지 마. 그게 가장 흔한 실수야.',
+  },
+  halfguard_attack: {
+    name: '니 쉴드 & 스윕 노리기',
+    nameEn: 'Knee Shield & Sweep',
+    summary: '내가 하프가드로 상대를 잡고 있는 상황. <strong>무릎을 방패처럼 세워</strong> 압박을 막고 언더훅 잡아서 스윕을 노려.',
+    steps: [
+      { title: '니 쉴드 만들기', desc: '잡힌 쪽 무릎을 상대 가슴 방향으로 세워 방패처럼 만들어. 상대가 납작하게 눌러오는 걸 막는 핵심이야.' },
+      { title: '언더훅 확보', desc: '안쪽 팔로 언더훅을 잡아 상대를 컨트롤해. 언더훅이 없으면 니 쉴드가 허무하게 무너져.' },
+      { title: '스윕 or 가드 회복', desc: '공간이 생기면 엉덩이를 빼서 풀 가드 회복 또는 언더훅 방향으로 스윕을 노려.' },
+    ],
+    warn: null,
+  },
+  halfguard_defend: {
+    name: '니 슬라이스 패스',
+    nameEn: 'Knee Slice Pass',
+    summary: '내가 상대 하프가드에 잡힌 상황. <strong>무릎을 허벅지 위에 날카롭게 얹어</strong> 압박하면서 빠져나와 사이드로 착지.',
+    steps: [
+      { title: '무릎 얹기', desc: '잡혀있는 쪽 무릎을 상대 허벅지 위에 비스듬히 올려놓아. 날카롭게 얹어서 압박해.' },
+      { title: '언더훅 & 상체 낮추기', desc: '언더훅으로 상대 상체를 잡아 바닥으로 눌러. 상체를 낮추면 상대가 움직이기 어려워.' },
+      { title: '무릎 밀어 빠져나가기', desc: '잡힌 다리를 무릎 압박으로 천천히 뽑아내면서 사이드 컨트롤로 착지.' },
+    ],
+    warn: null,
+  },
+  back_attack: {
+    name: '리어 네이키드 초크',
+    nameEn: 'Rear Naked Choke (RNC)',
+    summary: '<strong>시트벨트 + 발 훅</strong>으로 컨트롤 유지하고, 팔을 목 깊이 감아 조여.',
+    steps: [
+      { title: '시트벨트 & 훅', desc: '어깨 위아래로 팔을 교차해 시트벨트 그립. 양 발 훅을 허벅지 안쪽에 깊이 넣어 떨어지지 않게.' },
+      { title: '팔 목에 감기', desc: '위쪽 팔을 상대 턱 아래 목 깊이 밀어 넣어. 상대가 턱을 내리기 전에 빠르게.' },
+      { title: '조이기', desc: '감은 팔의 손을 반대쪽 이두근 위에 올리고, 반대 손은 상대 뒤통수를 눌러. 팔꿈치를 조이면 끝.' },
+    ],
+    warn: '목이 아니라 턱만 걸리면 효과 없어. 깊이 들어가야 해.',
+  },
+  back_defend: {
+    name: '백 탈출 — 사이드 롤',
+    nameEn: 'Back Escape (Side Roll)',
+    summary: '<strong>턱 먼저 당기고</strong> 초크 팔을 잡은 뒤 발 훅을 빼면서 옆으로 굴러.',
+    steps: [
+      { title: '턱 당기기', desc: '턱을 최대한 가슴 쪽으로 당겨 목을 보호해. 이게 먼저야 — 이 상태에서 초크가 안 들어와.' },
+      { title: '초크 팔 잡기', desc: '목에 걸린 팔을 양손으로 잡아 아래로 당겨 공간을 만들어. 이때 팔꿈치를 잡으면 더 강해.' },
+      { title: '사이드 롤', desc: '훅이 걸린 쪽으로 엉덩이를 밀어 발을 빼내면서 옆으로 굴러. 굴러서 상대 앞으로 나오면 탈출.' },
+    ],
+    warn: '상대 등을 향해 뒤로 뽑아내려 하면 오히려 더 깊이 초크 당해. 옆으로 굴러야 해.',
+  },
+};
+
+// ─── UI LOGIC ────────────────────────────────
+function selectPos(el) {
+  document.querySelectorAll('.pos-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selPos = el.dataset.pos;
+  log('포지션:', selPos);
+  checkReady();
+}
+
+function selectMode(el) {
+  document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selMode = el.dataset.mode;
+  log('모드:', selMode);
+  checkReady();
+}
+
+function checkReady() {
+  const btn = document.getElementById('goBtn');
+  (selPos && selMode) ? btn.classList.add('ready') : btn.classList.remove('ready');
+}
+
+function showSolution() {
+  if (!selPos || !selMode) { log('선택 미완료'); return; }
+  const key = `${selPos}_${selMode}`;
+  const sol = SOLUTIONS[key];
+  if (!sol) { err('솔루션 없음:', key); return; }
+  log('솔루션 표시:', key, sol.name);
+
+  const posLabel = {
+    closedguard: '클로즈드 가드', halfguard: '하프 가드',
+    mount: '마운트', sidecontrol: '사이드 컨트롤', back: '백'
+  }[selPos] || selPos;
+  const modeLabel = selMode === 'attack' ? '내가 하는 중' : '당하는 중';
+  const modeCls   = selMode === 'attack' ? 'mode-a' : 'mode-d';
+
+  document.getElementById('solContext').innerHTML =
+    `<span class="ctx-badge pos">${posLabel}</span><span class="ctx-arrow">›</span><span class="ctx-badge ${modeCls}">${modeLabel}</span>`;
+  document.getElementById('solTitle').textContent    = sol.name;
+  document.getElementById('solTitleEn').textContent  = sol.nameEn;
+  document.getElementById('solSummary').innerHTML    = sol.summary;
+
+  // 단계
+  document.getElementById('solSteps').innerHTML = sol.steps.map((s, i) =>
+    `<div class="step-item">
+      <div class="step-num">${i + 1}</div>
+      <div class="step-content">
+        <div class="step-title">${s.title}</div>
+        <div class="step-desc">${s.desc}</div>
+      </div>
+    </div>`
+  ).join('');
+
+  // 경고
+  const warnBox = document.getElementById('solWarn');
+  const warnTxt = document.getElementById('solWarnText');
+  if (sol.warn) {
+    warnTxt.textContent = sol.warn;
+    warnBox.style.display = 'flex';
+  } else {
+    warnBox.style.display = 'none';
+  }
+
+  document.getElementById('screen1').classList.remove('active');
+  document.getElementById('screen2').classList.add('active');
+  document.getElementById('backBtn').classList.add('visible');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  log('화면 전환 → screen2');
+}
+
+function goBack() {
+  log('screen1 복귀');
+  document.getElementById('screen2').classList.remove('active');
+  document.getElementById('screen1').classList.add('active');
+  document.getElementById('backBtn').classList.remove('visible');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── BOOT ────────────────────────────────────
+log('화이트벨트 생존법 v3 (텍스트 전용) 로드 완료 ✓');
+const cnt = Object.keys(SOLUTIONS).length;
+log('솔루션 수:', cnt, '/ 기대: 10');
+if (cnt !== 10) err('솔루션 개수 불일치!', cnt);
+</script>
+</body>
+</html>
