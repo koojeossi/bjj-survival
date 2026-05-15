@@ -8,26 +8,18 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f8f7f4;
-  --white:#ffffff;
-  --black:#0f0f0e;
-  --red:#c5392a;
-  --red-dim:#fdf0ee;
-  --amber:#d97706;
-  --green:#15803d;
-  --gray:#78766f;
-  --gray-lt:#e9e7e2;
+  --bg:#f8f7f4;--white:#fff;--black:#0f0f0e;
+  --red:#c5392a;--red-dim:#fdf0ee;
+  --blue:#1d4ed8;--blue-dim:#eff6ff;
+  --amber:#d97706;--green:#15803d;
+  --gray:#78766f;--gray-lt:#e9e7e2;
   --radius:14px;
 }
 html{scroll-behavior:smooth}
 body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--black);min-height:100vh;}
 
 /* HEADER */
-header{
-  background:var(--black);padding:1rem 1.5rem;
-  display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:100;
-}
+header{background:var(--black);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
 .logo{font-family:'Black Han Sans',sans-serif;font-size:18px;color:#fff;letter-spacing:1px;display:flex;align-items:center;gap:10px;}
 .belt-strip{display:flex;gap:3px;}
 .bs{width:14px;height:6px;border-radius:1px;}
@@ -37,7 +29,7 @@ header{
 .back-btn.visible{display:block;}
 
 /* SCREENS */
-.screen{display:none;animation:fadeUp .3s ease both;}
+.screen{display:none;animation:fadeUp .28s ease both;}
 .screen.active{display:block;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
@@ -48,7 +40,6 @@ header{
 .intro-sub{font-size:14px;color:var(--gray);font-weight:300;margin-bottom:2.5rem;line-height:1.7;}
 .section-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-bottom:1rem;display:flex;align-items:center;gap:.75rem;}
 .section-label::after{content:'';flex:1;height:1px;background:var(--gray-lt);}
-
 .pos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.75rem;margin-bottom:2.5rem;}
 .pos-card{background:var(--white);border:1.5px solid var(--gray-lt);border-radius:var(--radius);padding:1.1rem .9rem;cursor:pointer;transition:all .18s;text-align:center;}
 .pos-card:hover{border-color:var(--black);transform:translateY(-2px);}
@@ -56,87 +47,81 @@ header{
 .pos-emoji{font-size:28px;margin-bottom:.5rem;}
 .pos-name{font-size:13px;font-weight:700;color:var(--black);margin-bottom:3px;}
 .pos-desc{font-size:11px;color:var(--gray);font-weight:300;line-height:1.4;}
-
 .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:2rem;}
 .mode-card{background:var(--white);border:1.5px solid var(--gray-lt);border-radius:var(--radius);padding:1.1rem 1rem;cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:.75rem;}
 .mode-card:hover{border-color:var(--black);}
 .mode-card.attack{border-left:3px solid #2a7ed4;}
 .mode-card.defend{border-left:3px solid var(--red);}
-.mode-card.selected.attack{border-color:#1d4ed8;background:#eff6ff;}
+.mode-card.selected.attack{border-color:var(--blue);background:var(--blue-dim);}
 .mode-card.selected.defend{border-color:var(--red);background:var(--red-dim);}
 .mode-icon{font-size:24px;flex-shrink:0;}
 .mode-name{font-size:14px;font-weight:700;color:var(--black);margin-bottom:2px;}
 .mode-desc{font-size:11.5px;color:var(--gray);font-weight:300;}
-
 .go-btn{display:flex;align-items:center;justify-content:center;width:100%;font-size:15px;font-weight:700;background:var(--black);color:#fff;border:none;border-radius:var(--radius);padding:1rem;cursor:pointer;opacity:.3;pointer-events:none;transition:all .2s;}
 .go-btn.ready{opacity:1;pointer-events:all;}
 .go-btn.ready:hover{background:#333;}
 
-/* ── SCREEN 2 ── */
-#screen2{padding:1.5rem 1.5rem 4rem;}
+/* ── SCREEN 1.5 (서브카테고리) ── */
+#screen15{padding:1.5rem 1.5rem 4rem;}
+.sub-breadcrumb{display:flex;align-items:center;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+.bc-badge{font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;}
+.bc-badge.pos{background:var(--black);color:#fff;}
+.bc-badge.mode-a{background:#ddeeff;color:#1a5fa8;}
+.bc-badge.mode-d{background:var(--red-dim);color:var(--red);}
+.bc-arrow{color:var(--gray-lt);font-size:14px;}
+.sub-title{font-family:'Black Han Sans',sans-serif;font-size:34px;line-height:1;color:var(--black);margin-bottom:.4rem;}
+.sub-subtitle{font-size:13px;color:var(--gray);font-weight:300;margin-bottom:2rem;}
 
+/* 카테고리 카드 (서브미션/스윕) */
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:2rem;}
+.cat-card{background:var(--white);border:1.5px solid var(--gray-lt);border-radius:var(--radius);padding:1.2rem 1rem;cursor:pointer;transition:all .18s;text-align:center;}
+.cat-card:hover{border-color:var(--black);transform:translateY(-2px);}
+.cat-card.selected{border-color:var(--blue);background:var(--blue-dim);}
+.cat-icon{font-size:30px;margin-bottom:.5rem;}
+.cat-name{font-size:15px;font-weight:700;color:var(--black);margin-bottom:4px;}
+.cat-desc{font-size:11px;color:var(--gray);font-weight:300;}
+
+/* 기술 리스트 */
+.tech-section{display:none;}
+.tech-section.visible{display:block;}
+.tech-grid{display:grid;grid-template-columns:1fr;gap:.6rem;margin-bottom:1.5rem;}
+.tech-card{background:var(--white);border:1.5px solid var(--gray-lt);border-radius:var(--radius);padding:1rem 1.1rem;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:space-between;}
+.tech-card:hover{border-color:var(--black);}
+.tech-left{}
+.tech-name{font-size:14px;font-weight:700;color:var(--black);margin-bottom:3px;}
+.tech-name-en{font-size:11px;color:var(--gray);font-weight:300;font-style:italic;}
+.tech-arrow{color:var(--gray-lt);font-size:18px;}
+
+/* ── SCREEN 2 (솔루션) ── */
+#screen2{padding:1.5rem 1.5rem 4rem;}
 .sol-context{display:flex;align-items:center;gap:.5rem;margin-bottom:1.25rem;flex-wrap:wrap;}
 .ctx-badge{font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;}
 .ctx-badge.pos{background:var(--black);color:#fff;}
 .ctx-badge.mode-a{background:#ddeeff;color:#1a5fa8;}
 .ctx-badge.mode-d{background:var(--red-dim);color:var(--red);}
+.ctx-badge.cat{background:#f3f4f6;color:#374151;}
 .ctx-arrow{color:var(--gray-lt);font-size:14px;}
-
 .sol-title{font-family:'Black Han Sans',sans-serif;font-size:38px;line-height:1;color:var(--black);margin-bottom:4px;}
 .sol-title-en{font-size:13px;font-weight:300;color:var(--gray);font-style:italic;margin-bottom:1.5rem;}
-
-/* 핵심 요약 카드 */
-.summary-card{
-  background:var(--black);color:#fff;
-  border-radius:var(--radius);padding:1.25rem 1.25rem 1.1rem;
-  margin-bottom:1.25rem;
-}
+.summary-card{background:var(--black);color:#fff;border-radius:var(--radius);padding:1.25rem 1.25rem 1.1rem;margin-bottom:1.25rem;}
 .summary-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.6rem;}
-.summary-text{font-size:16px;font-weight:500;line-height:1.7;color:#fff;}
+.summary-text{font-size:16px;font-weight:500;line-height:1.7;}
 .summary-text strong{color:#fbbf24;}
-
-/* 3단계 스텝 */
 .steps-wrap{margin-bottom:1.25rem;}
 .steps-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-bottom:.85rem;display:flex;align-items:center;gap:.75rem;}
 .steps-label::after{content:'';flex:1;height:1px;background:var(--gray-lt);}
 .step-list{display:flex;flex-direction:column;gap:.5rem;}
-.step-item{
-  display:flex;align-items:flex-start;gap:.85rem;
-  background:var(--white);border:1px solid var(--gray-lt);
-  border-radius:10px;padding:.9rem 1rem;
-}
-.step-num{
-  width:26px;height:26px;border-radius:50%;
-  background:var(--black);color:#fff;
-  font-size:12px;font-weight:700;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;margin-top:1px;
-}
-.step-content{}
+.step-item{display:flex;align-items:flex-start;gap:.85rem;background:var(--white);border:1px solid var(--gray-lt);border-radius:10px;padding:.9rem 1rem;}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--black);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
 .step-title{font-size:13px;font-weight:700;color:var(--black);margin-bottom:3px;}
 .step-desc{font-size:12px;color:var(--gray);font-weight:300;line-height:1.6;}
-
-/* 경고 박스 */
-.warn-box{
-  display:flex;align-items:flex-start;gap:.65rem;
-  background:#fffbeb;border:1px solid #fde68a;
-  border-radius:10px;padding:.85rem 1rem;
-  margin-bottom:1.25rem;font-size:12.5px;line-height:1.6;color:#92400e;
-}
+.warn-box{display:flex;align-items:flex-start;gap:.65rem;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:.85rem 1rem;margin-bottom:1.25rem;font-size:12.5px;line-height:1.6;color:#92400e;}
 .warn-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
-
 .retry-btn{display:flex;align-items:center;justify-content:center;width:100%;font-size:14px;font-weight:700;background:none;color:var(--black);border:1.5px solid var(--black);border-radius:var(--radius);padding:.9rem;cursor:pointer;transition:all .15s;}
 .retry-btn:hover{background:var(--black);color:#fff;}
 
-@media(max-width:480px){
-  .intro-title{font-size:32px;}
-  .sol-title{font-size:30px;}
-  .pos-grid{grid-template-columns:repeat(2,1fr);}
-  .mode-grid{grid-template-columns:1fr;}
-}
-@media(min-width:700px){
-  #screen1,#screen2{max-width:620px;margin:0 auto;}
-}
+@media(max-width:480px){.intro-title{font-size:32px;}.sol-title{font-size:30px;}.sub-title{font-size:28px;}.pos-grid{grid-template-columns:repeat(2,1fr);}.mode-grid{grid-template-columns:1fr;}.cat-grid{grid-template-columns:1fr;}}
+@media(min-width:700px){#screen1,#screen15,#screen2{max-width:620px;margin:0 auto;}}
 </style>
 </head>
 <body>
@@ -149,168 +134,190 @@ header{
     </div>
     화이트벨트 생존법
   </div>
-  <button class="back-btn" id="backBtn" onclick="goBack()">← 다시 선택</button>
+  <button class="back-btn" id="backBtn" onclick="goBack()">← 뒤로</button>
 </header>
 
-<!-- SCREEN 1 -->
+<!-- SCREEN 1: 포지션 + 모드 -->
 <div class="screen active" id="screen1">
   <div class="intro-tag">BJJ WHITE BELT GUIDE</div>
   <h1 class="intro-title">지금 어떤<br>상황이야?</h1>
   <p class="intro-sub">포지션과 상황을 선택하면<br>바로 해결법을 보여줄게.</p>
-
   <div class="section-label">포지션 선택</div>
   <div class="pos-grid">
-    <div class="pos-card" data-pos="closedguard" onclick="selectPos(this)">
-      <div class="pos-emoji">🔒</div>
-      <div class="pos-name">클로즈드 가드</div>
-      <div class="pos-desc">다리로 잠긴 상태</div>
-    </div>
-    <div class="pos-card" data-pos="halfguard" onclick="selectPos(this)">
-      <div class="pos-emoji">🦵</div>
-      <div class="pos-name">하프 가드</div>
-      <div class="pos-desc">다리 하나만 잠긴</div>
-    </div>
-    <div class="pos-card" data-pos="mount" onclick="selectPos(this)">
-      <div class="pos-emoji">⬆️</div>
-      <div class="pos-name">마운트</div>
-      <div class="pos-desc">배 위에 올라탄</div>
-    </div>
-    <div class="pos-card" data-pos="sidecontrol" onclick="selectPos(this)">
-      <div class="pos-emoji">↔️</div>
-      <div class="pos-name">사이드 컨트롤</div>
-      <div class="pos-desc">옆에서 눌리는</div>
-    </div>
-    <div class="pos-card" data-pos="back" onclick="selectPos(this)">
-      <div class="pos-emoji">🎯</div>
-      <div class="pos-name">백</div>
-      <div class="pos-desc">등을 내준 상태</div>
-    </div>
+    <div class="pos-card" data-pos="closedguard" onclick="selectPos(this)"><div class="pos-emoji">🔒</div><div class="pos-name">클로즈드 가드</div><div class="pos-desc">다리로 잠긴 상태</div></div>
+    <div class="pos-card" data-pos="halfguard"   onclick="selectPos(this)"><div class="pos-emoji">🦵</div><div class="pos-name">하프 가드</div><div class="pos-desc">다리 하나만 잠긴</div></div>
+    <div class="pos-card" data-pos="mount"       onclick="selectPos(this)"><div class="pos-emoji">⬆️</div><div class="pos-name">마운트</div><div class="pos-desc">배 위에 올라탄</div></div>
+    <div class="pos-card" data-pos="sidecontrol" onclick="selectPos(this)"><div class="pos-emoji">↔️</div><div class="pos-name">사이드 컨트롤</div><div class="pos-desc">옆에서 눌리는</div></div>
+    <div class="pos-card" data-pos="back"        onclick="selectPos(this)"><div class="pos-emoji">🎯</div><div class="pos-name">백</div><div class="pos-desc">등을 내준 상태</div></div>
   </div>
-
   <div class="section-label">내 역할 선택</div>
   <div class="mode-grid">
     <div class="mode-card attack" data-mode="attack" onclick="selectMode(this)">
       <div class="mode-icon">⚔️</div>
-      <div>
-        <div class="mode-name">내가 잡은 포지션</div>
-        <div class="mode-desc">내가 그 포지션을 걸고 있음</div>
-      </div>
+      <div><div class="mode-name">내가 잡은 포지션</div><div class="mode-desc">내가 그 포지션을 걸고 있음</div></div>
     </div>
     <div class="mode-card defend" data-mode="defend" onclick="selectMode(this)">
       <div class="mode-icon">🛡️</div>
-      <div>
-        <div class="mode-name">상대가 잡은 포지션</div>
-        <div class="mode-desc">상대가 그 포지션을 걸고 있음</div>
-      </div>
+      <div><div class="mode-name">상대가 잡은 포지션</div><div class="mode-desc">상대가 그 포지션을 걸고 있음</div></div>
     </div>
   </div>
-
-  <button class="go-btn" id="goBtn" onclick="showSolution()">해결법 보기 →</button>
+  <button class="go-btn" id="goBtn" onclick="next()">다음 →</button>
 </div>
 
-<!-- SCREEN 2 -->
+<!-- SCREEN 1.5: 서브카테고리 선택 -->
+<div class="screen" id="screen15">
+  <div class="sub-breadcrumb" id="subBreadcrumb"></div>
+  <div class="sub-title" id="subTitle"></div>
+  <div class="sub-subtitle" id="subSubtitle"></div>
+
+  <!-- 카테고리 선택 -->
+  <div class="section-label">목표 선택</div>
+  <div class="cat-grid" id="catGrid"></div>
+
+  <!-- 기술 목록 (카테고리 선택 후 표시) -->
+  <div class="tech-section" id="techSection">
+    <div class="section-label" id="techLabel"></div>
+    <div class="tech-grid" id="techGrid"></div>
+  </div>
+</div>
+
+<!-- SCREEN 2: 솔루션 -->
 <div class="screen" id="screen2">
   <div class="sol-context" id="solContext"></div>
   <div class="sol-title" id="solTitle"></div>
   <div class="sol-title-en" id="solTitleEn"></div>
-
-  <div class="summary-card">
-    <div class="summary-label">한 줄 요약</div>
-    <div class="summary-text" id="solSummary"></div>
-  </div>
-
+  <div class="summary-card"><div class="summary-label">한 줄 요약</div><div class="summary-text" id="solSummary"></div></div>
   <div class="steps-wrap">
     <div class="steps-label">단계별 방법</div>
     <div class="step-list" id="solSteps"></div>
   </div>
-
-  <div class="warn-box" id="solWarn" style="display:none">
-    <div class="warn-icon">⚠️</div>
-    <div id="solWarnText"></div>
-  </div>
-
-  <button class="retry-btn" onclick="goBack()">↺ 다른 상황 보기</button>
+  <div class="warn-box" id="solWarn" style="display:none"><div class="warn-icon">⚠️</div><div id="solWarnText"></div></div>
+  <button class="retry-btn" onclick="goHome()">↺ 처음부터</button>
 </div>
 
 <script>
 // ─── DEBUG ───────────────────────────────────
 const DEBUG = true;
-const log = (...a) => DEBUG && console.log('%c[생존법]', 'color:#c5392a;font-weight:bold', ...a);
-const err = (...a) => console.error('%c[생존법 ERR]', 'color:red;font-weight:bold', ...a);
+const log = (...a) => DEBUG && console.log('%c[생존법]','color:#c5392a;font-weight:bold',...a);
+const err = (...a) => console.error('%c[생존법 ERR]','color:red;font-weight:bold',...a);
 
-let selPos = null, selMode = null;
+// ─── STATE ───────────────────────────────────
+let selPos = null, selMode = null, selCat = null;
+let history = []; // 화면 히스토리 스택
 
-// ─── SOLUTION DATABASE ────────────────────────
-const SOLUTIONS = {
-  mount_defend: {
-    name: '브릿지 & 롤',
-    nameEn: 'Upa Escape / Bridge and Roll',
-    summary: '상대 <strong>팔 하나를 잡아 고정</strong>하고, 발을 세워 엉덩이를 폭발적으로 들어 옆으로 굴러.',
-    steps: [
-      { title: '팔 잡기', desc: '초크를 시도하는 팔 하나를 양손으로 꽉 잡아 내 가슴에 밀착. 이게 빠지면 아무것도 안 돼.' },
-      { title: '발 세우기', desc: '잡은 팔과 같은 쪽 발을 세워 발꿈치를 엉덩이 가까이 당겨. 반대 발은 훅처럼 걸어도 돼.' },
-      { title: '브릿지 & 롤', desc: '숨 참고 한 번에 폭발적으로 엉덩이를 들어올리며 옆으로 굴러. 조금씩 하면 안 됨 — 한 방에 해야 해.' },
-    ],
-    warn: '팔을 잡지 않고 브릿지만 하면 상대가 균형 잡고 그대로 있어. 반드시 팔 먼저.',
-  },
-  mount_attack: {
-    name: '하이 마운트',
-    nameEn: 'High Mount Control',
-    summary: '<strong>무릎을 겨드랑이까지</strong> 천천히 올려 하이 마운트를 만들어. 거기서 암바나 초크가 열려.',
-    steps: [
-      { title: '균형 먼저', desc: '양팔을 앞으로 짚거나 상대 몸에 올려 무게를 싣고, 무릎이 땅에서 떨어지지 않게 꼭 붙여.' },
-      { title: '무릎 올리기', desc: '한 무릎씩 조금씩 겨드랑이 방향으로 밀어 올려. 급하게 하면 상대가 브릿지하기 좋아지니 천천히.' },
-      { title: '공격 선택', desc: '하이 마운트가 되면 암바 또는 크로스 초크. 상대 팔이 올라오는 타이밍에 바로 반응해.' },
-    ],
-    warn: null,
-  },
-  sidecontrol_defend: {
-    name: '힙 이스케이프 (새우)',
-    nameEn: 'Hip Escape / Shrimping',
-    summary: '<strong>프레임으로 공간 만들고</strong> 엉덩이를 새우처럼 뒤로 빼서 무릎을 집어넣어 가드 회복.',
-    steps: [
-      { title: '프레임 만들기', desc: '한 팔 팔꿈치를 상대 목·턱 쪽에, 다른 팔 팔꿈치를 상대 엉덩이 쪽에 대고 공간을 만들어. 팔을 뻗으면 꺾이니 팔꿈치로 버텨.' },
-      { title: '새우 동작', desc: '프레임으로 버티면서 엉덩이를 뒤쪽으로 쭉 빼. 새우처럼 몸을 옆으로 구부려 공간을 확보해.' },
-      { title: '무릎 집어넣기', desc: '생긴 공간에 무릎을 밀어 넣어 하프 가드 또는 풀 가드로 회복. 여기서 상대가 다시 눌러오면 반복.' },
-    ],
-    warn: '납작하게 누워 있으면 아무것도 안 돼. 무조건 옆으로 돌아서 프레임부터.',
-  },
-  sidecontrol_attack: {
-    name: '사이드 → 마운트 전환',
-    nameEn: 'Side Control to Mount Transition',
-    summary: '<strong>가슴을 낮게 붙이고 압박</strong>하다가 상대가 브릿지하는 타이밍에 마운트로 올라타.',
-    steps: [
-      { title: '압박 유지', desc: '가슴을 상대 가슴에 최대한 밀착하고 무게를 실어. 팔꿈치를 무릎에 가깝게 당겨 기반을 단단히.' },
-      { title: '타이밍 잡기', desc: '상대가 브릿지(엉덩이 들기)를 시도하는 순간이 기회. 그 방향으로 무게를 이동시켜.' },
-      { title: '마운트 올라타기', desc: '상대 배 위로 무릎을 올려 마운트로 전환. 착지 즉시 양 무릎을 옆구리에 붙여 균형 잡아.' },
-    ],
-    warn: null,
-  },
+// ─── SUBCATEGORY DB ──────────────────────────
+const SUBCATS = {
   closedguard_attack: {
-    name: '힙 범프 스윕',
-    nameEn: 'Hip Bump Sweep',
-    summary: '내가 상대를 가두고 있는 상황. 상대 포스처가 무너지는 순간 <strong>엉덩이를 폭발적으로 들어</strong> 스윕해서 탑으로 올라가.',
+    title: '뭘 노릴거야?',
+    subtitle: '클로즈드 가드에서 목표를 골라.',
+    categories: [
+      {
+        id: 'submission',
+        icon: '🔺',
+        name: '서브미션',
+        desc: '탭 받기',
+        techniques: ['armbar','triangle','kimura']
+      },
+      {
+        id: 'sweep',
+        icon: '🔄',
+        name: '스윕',
+        desc: '탑 포지션 뺏기',
+        techniques: ['hipbump','scissors','pendulum']
+      }
+    ]
+  }
+};
+
+// ─── TECHNIQUE DB ────────────────────────────
+const TECHNIQUES = {
+  // ── 클로즈드 가드 서브미션 ──
+  armbar: {
+    name: '암바', nameEn: 'Armbar from Closed Guard',
+    cat: '서브미션',
+    summary: '상대 팔 하나를 <strong>양 허벅지로 잡아 꺾어</strong>. 팔꿈치가 내 배꼽 방향을 향해야 해.',
+    steps: [
+      { title: '한쪽 팔 잡기', desc: '상대 한쪽 손목을 두 손으로 잡아 내 가슴에 당겨. 이 팔이 타깃이야.' },
+      { title: '각도 틀기', desc: '잡은 팔 반대쪽으로 엉덩이를 틀어 90도 각도를 만들어. 이때 발로 상대 등을 밀어 균형을 무너뜨려.' },
+      { title: '다리로 잠그기', desc: '한쪽 발은 상대 목 위, 다른 발은 등 위에 올리고 허벅지로 팔을 꽉 조여.' },
+      { title: '꺾기', desc: '엉덩이를 들어올리며 팔꿈치를 위로 꺾어. 천천히 — 탭 소리 나면 즉시 멈춰.' },
+    ],
+    warn: '팔꿈치가 배꼽 방향 아닌 옆을 향하면 효과 없어. 각도가 전부야.',
+  },
+  triangle: {
+    name: '트라이앵글 초크', nameEn: 'Triangle Choke',
+    cat: '서브미션',
+    summary: '다리로 상대 <strong>목과 한쪽 팔을 함께 잠가</strong> 혈류를 끊어.',
+    steps: [
+      { title: '팔 하나 안으로', desc: '상대 팔 하나를 안쪽(내 몸 쪽)으로 당겨서 한 팔만 다리 안에 들어오게 만들어.' },
+      { title: '다리 걸기', desc: '한쪽 다리를 상대 목 위로 올리고, 반대쪽 발목을 그 무릎 오금에 걸어 삼각형 모양 만들어.' },
+      { title: '각도 조절', desc: '엉덩이를 잡힌 팔 쪽으로 틀어 90도 각도 확보. 상대 머리를 아래로 눌러.' },
+      { title: '조이기', desc: '허벅지를 모으고 엉덩이를 들어올려. 목 양쪽 혈관이 막히면 탭이 나와.' },
+    ],
+    warn: '두 팔이 다 안에 있으면 초크가 안 걸려. 반드시 팔 하나만 안에.',
+  },
+  kimura: {
+    name: '기무라락', nameEn: 'Kimura Lock',
+    cat: '서브미션',
+    summary: '상대 팔을 등 뒤로 꺾는 <strong>숄더 조인트 락</strong>. 그립이 핵심이야.',
+    steps: [
+      { title: '손목 잡기', desc: '상대 한쪽 손목을 같은 쪽 손으로 잡아 바닥에 고정시켜.' },
+      { title: '기무라 그립', desc: '반대 손을 상대 팔꿈치 위로 넘겨 내 손목을 잡아 — 이게 기무라 그립이야.' },
+      { title: '팔 들어올리기', desc: '가드를 열고 옆으로 돌아누우면서 상대 팔꿈치를 위로 들어.' },
+      { title: '등 뒤로 꺾기', desc: '손목을 등 뒤쪽 방향으로 밀어 어깨 관절을 압박해. 천천히 올려.' },
+    ],
+    warn: null,
+  },
+
+  // ── 클로즈드 가드 스윕 ──
+  hipbump: {
+    name: '힙 범프 스윕', nameEn: 'Hip Bump Sweep',
+    cat: '스윕',
+    summary: '상대 포스처가 무너지는 순간 <strong>엉덩이를 폭발적으로 들어</strong> 탑으로 올라가.',
     steps: [
       { title: '상대 당기기', desc: '발목 잠금 유지한 채로 양손으로 상대 몸을 앞으로 당겨 포스처를 무너뜨려.' },
       { title: '힙 범프', desc: '상대가 앞으로 쏠리는 순간 한쪽으로 엉덩이를 폭발적으로 들어올려. 타이밍이 전부야.' },
-      { title: '탑 착지', desc: '상대가 옆으로 넘어가면 따라가서 탑에 착지. 가드를 놓지 말고 마운트까지 노려.' },
+      { title: '탑 착지', desc: '상대가 넘어가면 따라가서 탑에 착지. 가드 놓지 말고 마운트까지 노려.' },
     ],
     warn: null,
   },
+  scissors: {
+    name: '시저스 스윕', nameEn: 'Scissor Sweep',
+    cat: '스윕',
+    summary: '한 다리로 밀고 한 다리로 당겨 <strong>가위처럼 상대를 쓰러뜨려</strong>.',
+    steps: [
+      { title: '가드 열고 옆으로', desc: '가드를 열고 한 발은 상대 엉덩이에, 다른 발은 상대 무릎 안쪽에 대. 동시에 칼라와 소매를 잡아.' },
+      { title: '당기기', desc: '상대를 앞으로 당겨 무게를 앞으로 실어. 포스처가 숙여져야 스윕이 가능해.' },
+      { title: '가위 동작', desc: '엉덩이 쪽 발은 밀고 무릎 쪽 발은 당기는 가위 동작을 동시에. 팔로도 같은 방향으로 당겨.' },
+    ],
+    warn: '상대 포스처가 곧게 세워진 상태에서 하면 안 돼. 먼저 앞으로 숙여야 해.',
+  },
+  pendulum: {
+    name: '펜듈럼 스윕', nameEn: 'Pendulum Sweep',
+    cat: '스윕',
+    summary: '다리를 시계추처럼 흔들어 <strong>상대 무게중심을 완전히 무너뜨려</strong>.',
+    steps: [
+      { title: '팔 잡기', desc: '상대 한쪽 팔을 내 겨드랑이로 잡아 고정. 이 팔 반대쪽으로 스윕이 일어나.' },
+      { title: '엉덩이 빼기', desc: '잡은 팔 반대 방향으로 엉덩이를 빼며 각도를 만들어. 이게 스윕 파워의 핵심이야.' },
+      { title: '다리 흔들기', desc: '아래 다리를 시계추처럼 크게 흔들어 상대 무게중심을 넘겨. 팔로도 동시에 당겨.' },
+      { title: '따라가서 탑', desc: '상대가 넘어가는 방향으로 따라가 탑 포지션 착지.' },
+    ],
+    warn: null,
+  },
+
+  // ── 나머지 포지션들 ──
   closedguard_defend: {
-    name: '클로즈드 가드 패스',
-    nameEn: 'Closed Guard Pass',
+    name: '클로즈드 가드 패스', nameEn: 'Closed Guard Pass',
     summary: '내가 상대 가드 안에 갇힌 상황. <strong>포스처(허리)를 세우는 게 먼저</strong>야. 숙이는 순간 기요틴이나 암바 당해.',
     steps: [
-      { title: '포스처 세우기', desc: '허리를 곧게 펴고 무릎을 세워. 상대가 잡아당겨도 버텨 — 몸을 앞으로 숙이면 바로 기요틴이야.' },
-      { title: '가드 열기', desc: '한 손을 상대 배꼽 위에, 다른 손을 무릎 위에 올려 압박. 그 상태에서 옆으로 팔꿈치를 밀어 다리 잠금을 깨.' },
-      { title: '패스', desc: '다리가 열리면 토레안도 패스로 양 발목을 잡고 옆으로 빠져나가 사이드 컨트롤 착지.' },
+      { title: '포스처 세우기', desc: '허리를 곧게 펴고 무릎을 세워. 상대가 잡아당겨도 버텨 — 숙이면 바로 기요틴이야.' },
+      { title: '가드 열기', desc: '한 손을 상대 배꼽 위에, 다른 손을 무릎 위에 올려 압박. 옆으로 팔꿈치를 밀어 다리 잠금을 깨.' },
+      { title: '패스', desc: '다리가 열리면 토레안도 패스로 양 발목 잡고 옆으로 빠져나가 사이드 컨트롤 착지.' },
     ],
     warn: '상대 가드 안에서 절대 숙이지 마. 그게 가장 흔한 실수야.',
   },
   halfguard_attack: {
-    name: '니 쉴드 & 스윕 노리기',
-    nameEn: 'Knee Shield & Sweep',
+    name: '니 쉴드 & 스윕 노리기', nameEn: 'Knee Shield & Sweep',
     summary: '내가 하프가드로 상대를 잡고 있는 상황. <strong>무릎을 방패처럼 세워</strong> 압박을 막고 언더훅 잡아서 스윕을 노려.',
     steps: [
       { title: '니 쉴드 만들기', desc: '잡힌 쪽 무릎을 상대 가슴 방향으로 세워 방패처럼 만들어. 상대가 납작하게 눌러오는 걸 막는 핵심이야.' },
@@ -320,8 +327,7 @@ const SOLUTIONS = {
     warn: null,
   },
   halfguard_defend: {
-    name: '니 슬라이스 패스',
-    nameEn: 'Knee Slice Pass',
+    name: '니 슬라이스 패스', nameEn: 'Knee Slice Pass',
     summary: '내가 상대 하프가드에 잡힌 상황. <strong>무릎을 허벅지 위에 날카롭게 얹어</strong> 압박하면서 빠져나와 사이드로 착지.',
     steps: [
       { title: '무릎 얹기', desc: '잡혀있는 쪽 무릎을 상대 허벅지 위에 비스듬히 올려놓아. 날카롭게 얹어서 압박해.' },
@@ -330,31 +336,113 @@ const SOLUTIONS = {
     ],
     warn: null,
   },
+  mount_defend: {
+    name: '브릿지 & 롤', nameEn: 'Upa Escape / Bridge and Roll',
+    summary: '상대 <strong>팔 하나를 잡아 고정</strong>하고, 발을 세워 엉덩이를 폭발적으로 들어 옆으로 굴러.',
+    steps: [
+      { title: '팔 잡기', desc: '초크를 시도하는 팔 하나를 양손으로 꽉 잡아 내 가슴에 밀착. 이게 빠지면 아무것도 안 돼.' },
+      { title: '발 세우기', desc: '잡은 팔과 같은 쪽 발을 세워 발꿈치를 엉덩이 가까이 당겨.' },
+      { title: '브릿지 & 롤', desc: '한 번에 폭발적으로 엉덩이를 들어올리며 옆으로 굴러. 조금씩 하면 안 됨 — 한 방에.' },
+    ],
+    warn: '팔을 잡지 않고 브릿지만 하면 상대가 그대로 있어. 반드시 팔 먼저.',
+  },
+  mount_attack: {
+    name: '하이 마운트', nameEn: 'High Mount Control',
+    summary: '<strong>무릎을 겨드랑이까지</strong> 천천히 올려 하이 마운트를 만들어. 거기서 암바나 초크가 열려.',
+    steps: [
+      { title: '균형 먼저', desc: '양팔을 앞으로 짚거나 상대 몸에 올려 무게를 싣고, 무릎이 땅에서 떨어지지 않게 꼭 붙여.' },
+      { title: '무릎 올리기', desc: '한 무릎씩 조금씩 겨드랑이 방향으로 밀어 올려. 급하게 하면 상대가 브릿지하기 좋아지니 천천히.' },
+      { title: '공격 선택', desc: '하이 마운트가 되면 암바 또는 크로스 초크. 상대 팔이 올라오는 타이밍에 바로 반응해.' },
+    ],
+    warn: null,
+  },
+  sidecontrol_defend: {
+    name: '힙 이스케이프 (새우)', nameEn: 'Hip Escape / Shrimping',
+    summary: '<strong>프레임으로 공간 만들고</strong> 엉덩이를 새우처럼 뒤로 빼서 무릎을 집어넣어 가드 회복.',
+    steps: [
+      { title: '프레임 만들기', desc: '한 팔 팔꿈치를 상대 목·턱 쪽에, 다른 팔 팔꿈치를 상대 엉덩이 쪽에 대고 공간을 만들어.' },
+      { title: '새우 동작', desc: '프레임으로 버티면서 엉덩이를 뒤쪽으로 쭉 빼. 새우처럼 몸을 옆으로 구부려.' },
+      { title: '무릎 집어넣기', desc: '생긴 공간에 무릎을 밀어 넣어 하프 가드 또는 풀 가드로 회복.' },
+    ],
+    warn: '납작하게 누워 있으면 아무것도 안 돼. 무조건 옆으로 돌아서 프레임부터.',
+  },
+  sidecontrol_attack: {
+    name: '사이드 → 마운트 전환', nameEn: 'Side Control to Mount',
+    summary: '<strong>가슴을 낮게 붙이고 압박</strong>하다가 상대가 브릿지하는 타이밍에 마운트로 올라타.',
+    steps: [
+      { title: '압박 유지', desc: '가슴을 상대 가슴에 최대한 밀착하고 무게를 실어. 팔꿈치를 무릎에 가깝게 당겨.' },
+      { title: '타이밍 잡기', desc: '상대가 브릿지(엉덩이 들기)를 시도하는 순간이 기회. 그 방향으로 무게를 이동.' },
+      { title: '마운트 올라타기', desc: '상대 배 위로 무릎을 올려 마운트로 전환. 착지 즉시 양 무릎을 옆구리에 붙여 균형 잡아.' },
+    ],
+    warn: null,
+  },
   back_attack: {
-    name: '리어 네이키드 초크',
-    nameEn: 'Rear Naked Choke (RNC)',
+    name: '리어 네이키드 초크', nameEn: 'Rear Naked Choke (RNC)',
     summary: '<strong>시트벨트 + 발 훅</strong>으로 컨트롤 유지하고, 팔을 목 깊이 감아 조여.',
     steps: [
-      { title: '시트벨트 & 훅', desc: '어깨 위아래로 팔을 교차해 시트벨트 그립. 양 발 훅을 허벅지 안쪽에 깊이 넣어 떨어지지 않게.' },
+      { title: '시트벨트 & 훅', desc: '어깨 위아래로 팔을 교차해 시트벨트 그립. 양 발 훅을 허벅지 안쪽에 깊이 넣어.' },
       { title: '팔 목에 감기', desc: '위쪽 팔을 상대 턱 아래 목 깊이 밀어 넣어. 상대가 턱을 내리기 전에 빠르게.' },
       { title: '조이기', desc: '감은 팔의 손을 반대쪽 이두근 위에 올리고, 반대 손은 상대 뒤통수를 눌러. 팔꿈치를 조이면 끝.' },
     ],
     warn: '목이 아니라 턱만 걸리면 효과 없어. 깊이 들어가야 해.',
   },
   back_defend: {
-    name: '백 탈출 — 사이드 롤',
-    nameEn: 'Back Escape (Side Roll)',
+    name: '백 탈출 — 사이드 롤', nameEn: 'Back Escape (Side Roll)',
     summary: '<strong>턱 먼저 당기고</strong> 초크 팔을 잡은 뒤 발 훅을 빼면서 옆으로 굴러.',
     steps: [
       { title: '턱 당기기', desc: '턱을 최대한 가슴 쪽으로 당겨 목을 보호해. 이게 먼저야 — 이 상태에서 초크가 안 들어와.' },
-      { title: '초크 팔 잡기', desc: '목에 걸린 팔을 양손으로 잡아 아래로 당겨 공간을 만들어. 이때 팔꿈치를 잡으면 더 강해.' },
-      { title: '사이드 롤', desc: '훅이 걸린 쪽으로 엉덩이를 밀어 발을 빼내면서 옆으로 굴러. 굴러서 상대 앞으로 나오면 탈출.' },
+      { title: '초크 팔 잡기', desc: '목에 걸린 팔을 양손으로 잡아 아래로 당겨 공간을 만들어.' },
+      { title: '사이드 롤', desc: '훅이 걸린 쪽으로 엉덩이를 밀어 발을 빼내면서 옆으로 굴러. 상대 앞으로 나오면 탈출.' },
     ],
-    warn: '상대 등을 향해 뒤로 뽑아내려 하면 오히려 더 깊이 초크 당해. 옆으로 굴러야 해.',
+    warn: '뒤로 뽑아내려 하면 오히려 더 깊이 초크 당해. 옆으로 굴러야 해.',
   },
 };
 
-// ─── UI LOGIC ────────────────────────────────
+// ─── HELPERS ─────────────────────────────────
+const POS_LABEL = {closedguard:'클로즈드 가드',halfguard:'하프 가드',mount:'마운트',sidecontrol:'사이드 컨트롤',back:'백'};
+
+function makeBadge(text, cls) {
+  return `<span class="ctx-badge ${cls}">${text}</span>`;
+}
+function makeArrow() {
+  return `<span class="ctx-arrow">›</span>`;
+}
+
+// ─── SCREEN TRANSITIONS ──────────────────────
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  log('화면:', id);
+}
+
+function goBack() {
+  if (history.length === 0) return;
+  const prev = history.pop();
+  log('뒤로:', prev);
+
+  if (prev === 'screen1') {
+    document.getElementById('backBtn').classList.remove('visible');
+    showScreen('screen1');
+  } else if (prev === 'screen15') {
+    // 서브카테고리 화면으로 돌아갈 때 카테고리 선택 초기화
+    selCat = null;
+    document.getElementById('techSection').classList.remove('visible');
+    document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('selected'));
+    showScreen('screen15');
+  }
+}
+
+function goHome() {
+  selPos = null; selMode = null; selCat = null;
+  history = [];
+  document.querySelectorAll('.pos-card,.mode-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('goBtn').classList.remove('ready');
+  document.getElementById('backBtn').classList.remove('visible');
+  showScreen('screen1');
+}
+
+// ─── SCREEN 1 ────────────────────────────────
 function selectPos(el) {
   document.querySelectorAll('.pos-card').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
@@ -362,7 +450,6 @@ function selectPos(el) {
   log('포지션:', selPos);
   checkReady();
 }
-
 function selectMode(el) {
   document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
@@ -370,73 +457,139 @@ function selectMode(el) {
   log('모드:', selMode);
   checkReady();
 }
-
 function checkReady() {
   const btn = document.getElementById('goBtn');
   (selPos && selMode) ? btn.classList.add('ready') : btn.classList.remove('ready');
 }
-
-function showSolution() {
-  if (!selPos || !selMode) { log('선택 미완료'); return; }
+function next() {
+  if (!selPos || !selMode) return;
   const key = `${selPos}_${selMode}`;
-  const sol = SOLUTIONS[key];
-  if (!sol) { err('솔루션 없음:', key); return; }
-  log('솔루션 표시:', key, sol.name);
+  log('키:', key);
 
-  const posLabel = {
-    closedguard: '클로즈드 가드', halfguard: '하프 가드',
-    mount: '마운트', sidecontrol: '사이드 컨트롤', back: '백'
-  }[selPos] || selPos;
-  const modeLabel = selMode === 'attack' ? '내가 하는 중' : '당하는 중';
+  if (SUBCATS[key]) {
+    // 서브카테고리 화면으로
+    history.push('screen1');
+    document.getElementById('backBtn').classList.add('visible');
+    buildSubcatScreen(key);
+    showScreen('screen15');
+  } else if (TECHNIQUES[key]) {
+    // 바로 솔루션
+    history.push('screen1');
+    document.getElementById('backBtn').classList.add('visible');
+    buildSolutionScreen(key);
+    showScreen('screen2');
+  } else {
+    err('키 없음:', key);
+  }
+}
+
+// ─── SCREEN 1.5 ──────────────────────────────
+function buildSubcatScreen(key) {
+  const sub = SUBCATS[key];
+  const modeLabel = selMode === 'attack' ? '내가 잡은 포지션' : '상대가 잡은 포지션';
   const modeCls   = selMode === 'attack' ? 'mode-a' : 'mode-d';
 
-  document.getElementById('solContext').innerHTML =
-    `<span class="ctx-badge pos">${posLabel}</span><span class="ctx-arrow">›</span><span class="ctx-badge ${modeCls}">${modeLabel}</span>`;
-  document.getElementById('solTitle').textContent    = sol.name;
-  document.getElementById('solTitleEn').textContent  = sol.nameEn;
-  document.getElementById('solSummary').innerHTML    = sol.summary;
+  document.getElementById('subBreadcrumb').innerHTML =
+    makeBadge(POS_LABEL[selPos], 'pos') + makeArrow() + makeBadge(modeLabel, modeCls);
+  document.getElementById('subTitle').textContent = sub.title;
+  document.getElementById('subSubtitle').textContent = sub.subtitle;
 
-  // 단계
-  document.getElementById('solSteps').innerHTML = sol.steps.map((s, i) =>
-    `<div class="step-item">
-      <div class="step-num">${i + 1}</div>
-      <div class="step-content">
-        <div class="step-title">${s.title}</div>
-        <div class="step-desc">${s.desc}</div>
-      </div>
+  // 카테고리 카드 렌더
+  document.getElementById('catGrid').innerHTML = sub.categories.map(cat =>
+    `<div class="cat-card" data-catid="${cat.id}" onclick="selectCat(this,'${key}')">
+      <div class="cat-icon">${cat.icon}</div>
+      <div class="cat-name">${cat.name}</div>
+      <div class="cat-desc">${cat.desc}</div>
     </div>`
   ).join('');
 
-  // 경고
+  // 기술 섹션 초기화
+  selCat = null;
+  document.getElementById('techSection').classList.remove('visible');
+  log('서브카테고리 화면 빌드:', key);
+}
+
+function selectCat(el, key) {
+  document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selCat = el.dataset.catid;
+  log('카테고리:', selCat);
+
+  const sub = SUBCATS[key];
+  const cat = sub.categories.find(c => c.id === selCat);
+  if (!cat) { err('카테고리 없음:', selCat); return; }
+
+  // 기술 목록 렌더
+  document.getElementById('techLabel').textContent = cat.name + ' 기술 선택';
+  document.getElementById('techGrid').innerHTML = cat.techniques.map(tid => {
+    const tech = TECHNIQUES[tid];
+    if (!tech) { err('기술 없음:', tid); return ''; }
+    return `<div class="tech-card" onclick="selectTech('${tid}','${key}')">
+      <div class="tech-left">
+        <div class="tech-name">${tech.name}</div>
+        <div class="tech-name-en">${tech.nameEn}</div>
+      </div>
+      <div class="tech-arrow">›</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('techSection').classList.add('visible');
+  log('기술 목록 렌더:', cat.techniques);
+}
+
+function selectTech(tid, parentKey) {
+  log('기술 선택:', tid);
+  history.push('screen15');
+  buildSolutionScreen(tid, parentKey);
+  showScreen('screen2');
+}
+
+// ─── SCREEN 2 ────────────────────────────────
+function buildSolutionScreen(key, parentKey) {
+  const sol = TECHNIQUES[key];
+  if (!sol) { err('솔루션 없음:', key); return; }
+
+  const modeLabel = selMode === 'attack' ? '내가 잡은 포지션' : '상대가 잡은 포지션';
+  const modeCls   = selMode === 'attack' ? 'mode-a' : 'mode-d';
+
+  let contextHTML = makeBadge(POS_LABEL[selPos], 'pos') + makeArrow() + makeBadge(modeLabel, modeCls);
+  if (sol.cat) contextHTML += makeArrow() + makeBadge(sol.cat, 'cat');
+
+  document.getElementById('solContext').innerHTML = contextHTML;
+  document.getElementById('solTitle').textContent   = sol.name;
+  document.getElementById('solTitleEn').textContent = sol.nameEn;
+  document.getElementById('solSummary').innerHTML   = sol.summary;
+  document.getElementById('solSteps').innerHTML = (sol.steps||[]).map((s,i) =>
+    `<div class="step-item">
+      <div class="step-num">${i+1}</div>
+      <div><div class="step-title">${s.title}</div><div class="step-desc">${s.desc}</div></div>
+    </div>`
+  ).join('');
+
   const warnBox = document.getElementById('solWarn');
-  const warnTxt = document.getElementById('solWarnText');
   if (sol.warn) {
-    warnTxt.textContent = sol.warn;
+    document.getElementById('solWarnText').textContent = sol.warn;
     warnBox.style.display = 'flex';
   } else {
     warnBox.style.display = 'none';
   }
-
-  document.getElementById('screen1').classList.remove('active');
-  document.getElementById('screen2').classList.add('active');
-  document.getElementById('backBtn').classList.add('visible');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  log('화면 전환 → screen2');
-}
-
-function goBack() {
-  log('screen1 복귀');
-  document.getElementById('screen2').classList.remove('active');
-  document.getElementById('screen1').classList.add('active');
-  document.getElementById('backBtn').classList.remove('visible');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  log('솔루션 렌더 완료:', key);
 }
 
 // ─── BOOT ────────────────────────────────────
-log('화이트벨트 생존법 v3 (텍스트 전용) 로드 완료 ✓');
-const cnt = Object.keys(SOLUTIONS).length;
-log('솔루션 수:', cnt, '/ 기대: 10');
-if (cnt !== 10) err('솔루션 개수 불일치!', cnt);
+log('화이트벨트 생존법 v4 로드 완료 ✓');
+log('서브카테고리:', Object.keys(SUBCATS));
+log('기술 수:', Object.keys(TECHNIQUES).length);
+
+// 무결성 체크
+Object.entries(SUBCATS).forEach(([key, sub]) => {
+  sub.categories.forEach(cat => {
+    cat.techniques.forEach(tid => {
+      if (!TECHNIQUES[tid]) err(`기술 누락: ${key} > ${cat.id} > ${tid}`);
+    });
+  });
+});
+log('무결성 체크 완료');
 </script>
 </body>
 </html>
